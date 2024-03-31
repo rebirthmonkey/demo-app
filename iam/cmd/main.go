@@ -122,6 +122,22 @@ func getIPAddress() string {
 	return ""
 }
 
+// 查询 user 表中的特定 user 的 name 和 password
+func queryAuth(db *sql.DB, name string, password string) bool {
+	row := db.QueryRow("SELECT name FROM user WHERE name = ? AND password = ?", name, password)
+	var user string
+	err := row.Scan(&user)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			// 没有匹配的行，返回 false
+			return false
+		}
+		panic(err)
+	}
+	// 找到匹配的行，返回 true
+	return true
+}
+
 func main() {
 	initConfig()
 
@@ -169,6 +185,17 @@ func main() {
 		c.JSON(200, gin.H{
 			"groups":     groups,
 			"IP Address": getIPAddress(),
+		})
+	})
+
+	r.GET("/auth", func(c *gin.Context) {
+		user := c.Query("user")
+		pwd := c.Query("pwd")
+
+		isAuthenticated := queryAuth(mysqlDB, user, pwd)
+
+		c.JSON(200, gin.H{
+			"authenticated": isAuthenticated,
 		})
 	})
 
