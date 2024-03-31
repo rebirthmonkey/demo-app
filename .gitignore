@@ -23,3 +23,6 @@ go.work
 IDE
 .idea/
 
+# Development environment configuration
+iam/configs/config.dev.yaml
+
