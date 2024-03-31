@@ -1,0 +1,16 @@
+mysql:
+#  host: nj-cdb-7ajy5j0p.sql.tencentcdb.com
+  host: 10.0.1.3
+#  port: 63939
+  port: 3306
+  user: root
+  password: P@ssw0rd
+  dbname: test
+
+redis:
+  addr: 10.0.1.8:6379
+  password: P@ssw0rd
+  db: 0
+
+log:
+  filePath: "/tmp/gin.log"
